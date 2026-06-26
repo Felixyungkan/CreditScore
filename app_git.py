@@ -3,7 +3,7 @@ import pandas as pd
 import joblib
 
 # Load model sekali saat aplikasi dijalankan
-model = joblib.load("xgb_credit_pipeline")
+model = joblib.load("xgb_credit_pipeline.pkl")
 
 
 def main():
