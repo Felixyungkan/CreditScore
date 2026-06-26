@@ -1,11 +1,14 @@
 import streamlit as st
-import pandas as pd
 import joblib
+import traceback
 
-# Load model sekali saat aplikasi dijalankan
-model = joblib.load("xgb_credit_pipeline.pkl")
+st.title("Testing")
 
-
+try:
+    model = joblib.load("artifacts/xgb_credit_pipeline.pkl")
+    st.success("Model loaded successfully!")
+except Exception:
+    st.code(traceback.format_exc())
 def main():
 
     st.title("Credit Score Prediction")
