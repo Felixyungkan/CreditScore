@@ -3,6 +3,7 @@ import pandas as pd
 import joblib
 import traceback
 
+# Load model
 try:
     model = joblib.load("xgb_credit_pipeline.pkl")
 except Exception as e:
@@ -10,6 +11,15 @@ except Exception as e:
     st.exception(e)
     st.code(traceback.format_exc())
     st.stop()
+
+# Mapping LabelEncoder
+credit_score_mapping = {
+    0: "Good",
+    1: "Poor",
+    2: "Standard"
+}
+
+
 def main():
 
     st.title("Credit Score Prediction")
@@ -180,9 +190,18 @@ def main():
 
         df = pd.DataFrame([features])
 
-        prediction = model.predict(df)[0]
+        try:
+            prediction = model.predict(df)[0]
 
-        st.success(f"Predicted Credit Score: {prediction}")
+            # Mapping ke label asli
+            credit_score = credit_score_mapping[int(prediction)]
+
+            st.success(f"Predicted Credit Score: {credit_score}")
+
+        except Exception as e:
+            st.error("Prediction failed")
+            st.exception(e)
+            st.code(traceback.format_exc())
 
 
 if __name__ == "__main__":
